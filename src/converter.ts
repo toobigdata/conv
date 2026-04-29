@@ -21,17 +21,14 @@ export function linkToClash(
   links: string[],
   mode: ClashOutputMode = "proxies",
 ): ConvertResult {
-  const nodeStrings = links
-    .map((link) => {
-      try {
-        const node = parseUri(link.trim());
-        return node ? generateClashNode(node) : null;
-      } catch (e) {
-        console.error(e);
-        return null;
-      }
-    })
-    .filter(Boolean);
+  let nodeStrings = linksToClashNodes(links);
+
+  if (nodeStrings.length === 0) {
+    const decodedLinks = tryDecodeBase64SubscriptionLinks(links);
+    if (decodedLinks) {
+      nodeStrings = linksToClashNodes(decodedLinks);
+    }
+  }
 
   if (nodeStrings.length === 0) {
     return {
@@ -46,6 +43,51 @@ export function linkToClash(
     return { success: true, data: `payload:\n${content}` };
   if (mode === "none") return { success: true, data: content };
   return { success: true, data: `proxies:\n${content}` };
+}
+
+function linksToClashNodes(links: string[]): string[] {
+  return links
+    .map((link) => {
+      try {
+        const node = parseUri(link.trim());
+        return node ? generateClashNode(node) : null;
+      } catch (e) {
+        console.error(e);
+        return null;
+      }
+    })
+    .filter((node): node is string => Boolean(node));
+}
+
+function tryDecodeBase64SubscriptionLinks(links: string[]): string[] | null {
+  const rawText = links.join("\n").trim();
+  if (!rawText) return null;
+
+  const normalized = rawText
+    .replace(/\s+/g, "")
+    .replace(/-/g, "+")
+    .replace(/_/g, "/");
+
+  if (!/^[A-Za-z0-9+/=]+$/.test(normalized)) return null;
+
+  const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, "=");
+  const decoded = decodeBase64Strict(padded);
+  if (!decoded) return null;
+
+  const decodedLinks = decoded
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  if (
+    !decodedLinks.some((line) =>
+      /^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//.test(line)
+    )
+  ) {
+    return null;
+  }
+
+  return decodedLinks;
 }
 
 // ====================== 反向：Clash → 链接 ======================
@@ -199,6 +241,20 @@ function decodeBase64OrOriginal(str: string): string {
     }
   } catch {
     return str;
+  }
+}
+
+function decodeBase64Strict(str: string): string | null {
+  try {
+    const binary = atob(str);
+    try {
+      const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+      return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    } catch {
+      return binary;
+    }
+  } catch {
+    return null;
   }
 }
 

@@ -66,6 +66,7 @@ vless://这是UUID@这是服务器:11451?type=tcp&encryption=none&flow=xtls-rprx
 - 纯本地处理, 数据不上传不保存
 - 转换为 Clash Config 时自动清理空对象
 - 主机名中非 ASCII 字符自动转换为 Punycode
+- 未检出可用节点时自动尝试 Base64 订阅解码后再转换
 
 ## 自部署
 
@@ -105,4 +106,4 @@ Cloudflare Docs:
 
 </details>
 
-如有需要, 所有者可 [联系我们](https://siiway.org/t/c) 删除其上提到的链接.
+如有需要, 所有者可 [联系我们](https://wss.moe/c) 删除其上提到的链接.
