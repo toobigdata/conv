@@ -21,24 +21,24 @@
   },
   "devDependencies": {
     "@modyfi/vite-plugin-yaml": "^1.1.1",
-    "@types/react": "^19.2.6",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "baseline-browser-mapping": "^2.9.19",
+    "@vitejs/plugin-react": "^5.2.0",
+    "baseline-browser-mapping": "^2.10.24",
     "typescript": "^5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.3.2"
   },
   "dependencies": {
-    "@fluentui/react-components": "^9.72.7",
-    "@fluentui/react-icons": "^2.0.315",
+    "@fluentui/react-components": "^9.73.8",
+    "@fluentui/react-icons": "^2.0.325",
     "@types/js-yaml": "^4.0.9",
-    "i18next": "^25.6.3",
-    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next": "^25.10.10",
+    "i18next-browser-languagedetector": "^8.2.1",
     "js-yaml": "^4.1.1",
-    "pyodide": "^0.29.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-i18next": "^16.3.5",
-    "ts-punycode": "^0.1.0"
+    "pyodide": "^0.29.3",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-i18next": "^16.6.6",
+    "ts-punycode": "^0.1.2"
   }
 }
