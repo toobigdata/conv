@@ -1,26 +1,12 @@
 import { loadPyodide, version as pyodideVersion } from "pyodide";
 
 let pyodidePromise: Promise<any> | null = null;
-let isPyodideLoading = false;
 
 export async function getPyodide() {
   if (pyodidePromise) return pyodidePromise;
-  if (isPyodideLoading) {
-    // 防止重复加载
-    return new Promise((resolve) => {
-      const check = setInterval(() => {
-        if (pyodidePromise) {
-          clearInterval(check);
-          resolve(pyodidePromise);
-        }
-      }, 100);
-    });
-  }
-
-  isPyodideLoading = true;
   console.log("Pyodide 加载中（首次约 2-5 秒）...");
 
-  try {
+  pyodidePromise = (async () => {
     const py = await loadPyodide({
       indexURL: `https://cdn.jsdelivr.net/pyodide/v${pyodideVersion}/full/`,
     });
@@ -37,13 +23,14 @@ export async function getPyodide() {
     });
 
     console.log("PyYAML 安装完成！");
-
-    pyodidePromise = Promise.resolve(py);
-    isPyodideLoading = false;
     return py;
+  })();
+
+  try {
+    return await pyodidePromise;
   } catch (err: any) {
     console.error("Pyodide + PyYAML 加载失败:", err);
-    isPyodideLoading = false;
+    pyodidePromise = null;
     throw new Error(`PyYAML 加载失败：${err.message}`);
   }
 }
