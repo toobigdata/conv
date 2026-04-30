@@ -4,20 +4,20 @@
 
 > 环境
 
-Package Manager (包管理器): **pnpm**
+Package Manager (包管理器): **bun**
 
 Commands (命令):
 
 ```bash
 # Start development server
 # 启动开发服务器
-pnpm dev
+bun run dev
 # Build app
 # 构建应用
-pnpm build
+bun run build
 # Preview app you built
 # 预览你构建好的应用
-pnpm preview
+bun run preview
 ```
 
 ## Tips for VSCode Users

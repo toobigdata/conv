@@ -17,36 +17,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 使用 pnpm 官方 action
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          version: 9
-          run_install: false
+          bun-version-file: package.json
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      # 安装依赖
       - name: Install dependencies
-        run: |
-          pnpm i --frozen-lockfile
+        run: bun install --frozen-lockfile
 
-      # 构建 React 应用
       - name: Build
-        run: |
-          pnpm build
+        run: bun run build
 
-      # 上传到 GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
 
-      # 部署
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

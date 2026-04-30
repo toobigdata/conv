@@ -1,2 +1,2 @@
-Package manager is pnpm.
-Available scripts: `pnpm dev`, `pnpm build`, `pnpm preview`.
+Package manager is bun.
+Available scripts: `bun run dev`, `bun run build`, `bun run preview`.

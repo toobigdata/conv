@@ -2,6 +2,7 @@
   "name": "urlclash-converter",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "bun@1.3.10",
   "author": {
     "name": "wyf9",
     "email": "wyf9@siiway.org",
