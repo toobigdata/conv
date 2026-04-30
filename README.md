@@ -56,6 +56,7 @@ vless://这是UUID@这是服务器:11451?type=tcp&encryption=none&flow=xtls-rprx
 | WireGuard    | wireguard  | wg:// / wireguard://  | 完整配置                                    |
 | HTTP(S)      | http       | http:// / https://    | 基础 HTTP 代理                              |
 | SOCKS5       | socks5     | socks5://             | 支持认证                                    |
+| AnyTLS       | anytls     | anytls://             | 完整配置                                    |
 
 > 本项目的 Clash 配置示例以 Meta (Mihomo) 核心分支为准.
 
