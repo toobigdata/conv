@@ -361,6 +361,7 @@ interface IProxyConfig
     IProxyWireguardConfig,
     IProxyHysteriaConfig,
     IProxyHysteria2Config,
+    IProxyAnytlsConfig,
     IProxyShadowsocksConfig,
     IProxyshadowsocksRConfig,
     IProxySmuxConfig,
