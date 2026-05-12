@@ -646,7 +646,7 @@ function URI_VLESS(line: string): IProxyVlessConfig {
   proxy.flow = params.flow ? "xtls-rprx-vision" : undefined;
   proxy["client-fingerprint"] = params.fp as ClientFingerprint;
   proxy.alpn = params.alpn ? params.alpn.split(",").map((a) => a.trim()) : undefined;
-  proxy["skip-cert-verify"] = /(TRUE|1)/i.test(params.allowinsecure || params.allowInsecure || "");
+  proxy["skip-cert-verify"] = /(TRUE|1)/i.test(params.allowinsecure || params.allowInsecure || params["skip-cert-verify"] || "");
 
   // Reality 参数
   if (params.security === "reality") {
@@ -902,7 +902,7 @@ function URI_Hysteria2(line: string): IProxyHysteria2Config {
     port,
     password,
     // 以下字段 Clash Meta / Mihomo 完全支持，必须加上！
-    ...(params.get("insecure") === "1" && { "skip-cert-verify": true }),
+    ...((params.get("insecure") === "1" || params.get("skip-cert-verify") === "1" || /true/i.test(params.get("skip-cert-verify") || "")) && { "skip-cert-verify": true }),
     ...(params.get("sni") && { sni: params.get("sni")! }),
     ...(params.get("obfs") && { obfs: params.get("obfs")! }),
     ...(params.get("obfs-password") && {
@@ -960,6 +960,7 @@ function URI_Hysteria(line: string): IProxyHysteriaConfig {
         proxy["alpn"] = value ? value.split(",") : undefined;
         break;
       case "insecure":
+      case "skip-cert-verify":
         proxy["skip-cert-verify"] = /(TRUE)|1/i.test(value);
         break;
       case "auth":
